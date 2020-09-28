@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MusicXima</string>
+    <!--title-->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="indicator_title">
+        <item>推荐</item>
+        <item>订阅</item>
+        <item>历史</item>
+    </string-array>
+</resources>

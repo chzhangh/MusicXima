@@ -17,12 +17,27 @@ public interface IRecommendCallback {
     /**
      * 加载更多
      * @param result
-     */
+     *//*
     void onLoadMore(List<Album> result);
 
-    /**
+    *//**
      * 下拉加载刷新更多的结果
      * onRefreshMore
+     *//*
+    void onRefreshMore(List<Album> result);*/
+
+    /**
+     * 网络错误
      */
-    void onRefreshMore(List<Album> result);
+    void onNetWorkError();
+
+    /**
+     * 数据为空
+     */
+    void onEmpty();
+
+    /**
+     * 正在加载
+     */
+    void onLoading();
 }

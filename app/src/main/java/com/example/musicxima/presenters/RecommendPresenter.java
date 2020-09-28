@@ -38,10 +38,14 @@ public class RecommendPresenter implements IRecommendPresenter {
         }
         return sInstance;
     }
+
+    /**
+     * 接口实现，获取推荐的内容
+     */
     @Override
     public void getRecommendList() {
+        upLoading();
         getRecommendData();
-
     }
 
     /**
@@ -74,18 +78,42 @@ public class RecommendPresenter implements IRecommendPresenter {
             public void onError(int i, String s) {
                 LogUtil.d(TAG, "error   -->" + i);
                 LogUtil.d(TAG,"errorMsg"+s);
+                handleError();
             }
         });
     }
 
-    private void handlerRecommendResult(List<Album> albumList) {
+    private void handleError() {
         //通知ui更新
         if (mCallbacks != null) {
             for (IRecommendCallback mCallback : mCallbacks) {
-                mCallback.onRecommendListLoaded(albumList);//获取推荐的结果
+                mCallback.onNetWorkError();
             }
         }
     }
+
+    private void handlerRecommendResult(List<Album> albumList) {
+        //通知UI更新
+        if (albumList != null) {
+           // albumList.clear();
+            if(albumList.size() == 0){
+                for (IRecommendCallback mCallback : mCallbacks) {
+                    mCallback.onEmpty();
+                }
+            }else{
+                for (IRecommendCallback mCallback : mCallbacks) {
+                    mCallback.onRecommendListLoaded(albumList);//获取推荐的结果
+                }
+            }
+        }
+    }
+
+    private void upLoading(){
+        for (IRecommendCallback mCallback : mCallbacks) {
+            mCallback.onLoading();
+        }
+    }
+
 
 
     @Override

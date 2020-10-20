@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="10dp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/play_icon"
+            android:layout_width="30dp"
+            android:src="@mipmap/playlist_playing_icon"
+            android:layout_height="30dp">
+
+        </ImageView>
+        <TextView
+            android:id="@+id/track_title"
+            android:layout_width="match_parent"
+            android:text="我是标题"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@color/gray"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:layout_marginTop="16dp"
+        android:background="@color/gray1"></View>
+
+</LinearLayout>

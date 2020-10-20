@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_confirm_dialog"
+        android:layout_height="150dp">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/gray1"
+            android:layout_weight="1"
+            android:layout_height="1dp">
+
+        </View>
+
+        <TextView
+            android:layout_marginTop="35dp"
+           android:layout_centerHorizontal="true"
+            android:text="取消订阅该专辑吗？"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <LinearLayout
+            android:id="@+id/dialog_button_container"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            >
+            <TextView
+                android:id="@+id/cancel_sub"
+                android:textColor="@color/sub_txt_title"
+                android:text="取消订阅"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+            </TextView>
+            <View
+                android:layout_width="1dp"
+                android:background="@color/gray1"
+
+                android:layout_height="wrap_content">
+
+            </View>
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/main_color"
+               android:id="@+id/giveup_tv"
+                android:text="我在想想"
+                android:textSize="18sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_above="@+id/dialog_button_container"
+            android:layout_width="match_parent"
+            android:background="@color/gray1"
+            android:layout_weight="1"
+            android:layout_height="1dp">
+
+        </View>
+
+    </RelativeLayout>
+
+</RelativeLayout>

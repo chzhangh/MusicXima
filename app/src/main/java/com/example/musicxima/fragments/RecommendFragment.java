@@ -1,5 +1,6 @@
 package com.example.musicxima.fragments;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,23 +8,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.musicxima.DetailActivity;
 import com.example.musicxima.R;
-import com.example.musicxima.adapters.RecommendListAdapter;
+import com.example.musicxima.adapters.AlbumListAdapter;
 import com.example.musicxima.base.BaseFragment;
 import com.example.musicxima.interfaces.IRecommendCallback;
+import com.example.musicxima.presenters.AlbumDetailPresenter;
 import com.example.musicxima.presenters.RecommendPresenter;
 import com.example.musicxima.views.UILoader;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import java.util.List;
 
-public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.onRetryClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.onRetryClickListener, AlbumListAdapter.OnClickItemListner {
     private static final String TAG = "RecommendFragment";
     private RecyclerView mRecommendList;
-    private RecommendListAdapter mRecommendListAdapter;
+    private AlbumListAdapter mRecommendListAdapter;
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
     private View mRootView;
+    private TwinklingRefreshLayout mTwinklingRefreshLayout;
 
     @Override
     protected View onSubViewLoaded(final LayoutInflater inflater, final ViewGroup container) {
@@ -51,6 +57,8 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         mRootView = inflater.inflate(R.layout.fragment_recommend, container,false);
         //RecyclerView的使用，1、找到控件
         mRecommendList = mRootView.findViewById(R.id.recomment_list);
+        mTwinklingRefreshLayout = mRootView.findViewById(R.id.over_scroll_view);
+        mTwinklingRefreshLayout.setPureScrollModeOn();//设置回弹效果
         //设置布局管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -67,8 +75,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
             }
         });
         //3、设置适配器
-        mRecommendListAdapter = new RecommendListAdapter();
+        mRecommendListAdapter = new AlbumListAdapter();
         mRecommendList.setAdapter(mRecommendListAdapter);
+        mRecommendListAdapter.setOnClickItemListner(this);
         return  mRootView;
     }
 
@@ -131,5 +140,14 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         if (mRecommendPresenter != null) {
             mRecommendPresenter.getRecommendList();
         }
+    }
+
+    @Override
+    public void clickItemListener(int position, Album album) {
+        //根据位置拿到数据
+        // item被点击了
+        AlbumDetailPresenter.getInstance().setTagAlbum(album);
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        startActivity(intent);
     }
 }

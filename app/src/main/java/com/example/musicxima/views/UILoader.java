@@ -14,7 +14,7 @@ import com.example.musicxima.R;
 import com.example.musicxima.base.BaseApplication;
 
 public abstract class UILoader extends FrameLayout {
-
+//14-17集，学习如何写UILoader
     private View mLoadingView;
     private View mSuccessView;
     private View mNetWorkErrorView;

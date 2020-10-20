@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.RecommendFragment">
-
+<com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+    android:id="@+id/over_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:background="#F4F4F4"
         android:id="@+id/recomment_list"
@@ -13,4 +16,7 @@
         android:overScrollMode="never">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+</com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
 </RelativeLayout>

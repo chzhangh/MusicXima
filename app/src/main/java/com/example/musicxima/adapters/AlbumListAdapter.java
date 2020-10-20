@@ -16,8 +16,10 @@ import com.ximalaya.ting.android.opensdk.model.album.Album;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.InnerViewHolder> {
+public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.InnerViewHolder> {
     private List<Album> mData = new ArrayList<>();
+    private OnClickItemListner mOnClickItemListner = null;
+    private onAlbumItemLongClikListener ItemLongClikListener;
 
     @NonNull
     @Override
@@ -27,9 +29,29 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InnerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InnerViewHolder holder, final int position) {
         //这里设置数据,把当前的位置设置给item
         holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int clickPosition = (int)v.getTag();
+                if (mOnClickItemListner != null) {
+                    mOnClickItemListner.clickItemListener(clickPosition,mData.get(clickPosition));
+                }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int clickPosition = (int)v.getTag();
+                if (ItemLongClikListener != null) {
+                    ItemLongClikListener.onItemLongClick(clickPosition,mData.get(clickPosition));
+                }
+
+                return false;
+            }
+        });
         holder.setDatas(mData.get(position));
 
     }
@@ -50,6 +72,7 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         //更新ui
         notifyDataSetChanged();
     }
+
 
     public class InnerViewHolder extends RecyclerView.ViewHolder{
         public InnerViewHolder(@NonNull View itemView) {
@@ -74,8 +97,22 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
 
             Picasso.get().load(album.getCoverUrlLarge()).into(albumCover);
 
-
-
         }
+    }
+
+    public void setOnClickItemListner(OnClickItemListner listner){
+        this.mOnClickItemListner = listner;
+    }
+
+    public interface OnClickItemListner{
+        void clickItemListener(int position, Album album);
+    }
+    public void setOnAlbumItemLongClikListener(onAlbumItemLongClikListener longClikListener){
+        this.ItemLongClikListener = longClikListener;
+    }
+
+    //item的长按接口
+    public interface onAlbumItemLongClikListener{
+        void onItemLongClick(int clickPosition, Album album);
     }
 }

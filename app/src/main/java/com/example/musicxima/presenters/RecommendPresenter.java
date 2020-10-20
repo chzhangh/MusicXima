@@ -1,24 +1,21 @@
 package com.example.musicxima.presenters;
 
+import com.example.musicxima.DataBase.XimalayaApi;
 import com.example.musicxima.interfaces.IRecommendCallback;
 import com.example.musicxima.interfaces.IRecommendPresenter;
-import com.example.musicxima.utils.Constants;
 import com.example.musicxima.utils.LogUtil;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RecommendPresenter implements IRecommendPresenter {
     private static final String TAG = "RecommendPresenter";
     private List<IRecommendCallback> mCallbacks = new ArrayList<>();
     private static RecommendPresenter sInstance = null;
+    private List<Album> mCurrentRecommend = null;
 
     private RecommendPresenter(){
 
@@ -40,26 +37,27 @@ public class RecommendPresenter implements IRecommendPresenter {
     }
 
     /**
+     * 获取当前的推荐专辑列表
+     * @return
+     */
+
+   public  List<Album> getCurrentRecommend(){
+        return  mCurrentRecommend;
+   }
+
+    /**
      * 接口实现，获取推荐的内容
+     *  /**
+     *      * 获取推荐内容，其实就是猜你喜欢
+     *      * 这个接口，3.10.6 获取猜你喜欢的专辑
+     *      *
+     *
      */
     @Override
     public void getRecommendList() {
         upLoading();
-        getRecommendData();
-    }
-
-    /**
-     * 获取推荐内容，其实就是猜你喜欢
-     * 这个接口，3.10.6 获取猜你喜欢的专辑
-     *
-     */
-
-    private void getRecommendData() {
-        //封装参数
-        Map<String, String> map = new HashMap<>();
-        //这个参数表示一页数据返回多少条数据
-        map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMANND_COUNT+"");
-        CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
+        XimalayaApi ximalayaApi = XimalayaApi.getInstance();
+        ximalayaApi.getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(GussLikeAlbumList gussLikeAlbumList) {
                 LogUtil.d(TAG,"thread name"+Thread.currentThread().getName());
@@ -83,6 +81,9 @@ public class RecommendPresenter implements IRecommendPresenter {
         });
     }
 
+
+
+
     private void handleError() {
         //通知ui更新
         if (mCallbacks != null) {
@@ -104,6 +105,7 @@ public class RecommendPresenter implements IRecommendPresenter {
                 for (IRecommendCallback mCallback : mCallbacks) {
                     mCallback.onRecommendListLoaded(albumList);//获取推荐的结果
                 }
+                this.mCurrentRecommend = albumList;
             }
         }
     }
